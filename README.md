@@ -8,6 +8,7 @@ Python 3.10.4 x64
 
 #### Installing requirements:
 Naviagate to the `process_monitor_tool` directory and issue the following command:
+
 `pip install -r .\requirements.txt`
 
 #### Usage:
