@@ -27,10 +27,10 @@ options:
 
 Given that C: is the system drive, here are some examples:
 
-monitortool.py -p "C:\Windows\System32\calc.exe" -i 1
-monitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -hg
-monitortool.oy -p "C:\Windows\System32\calc.exe" -i 1 -sp "C:\Users\Public\Documents"
-monitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -rp
+process_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1
+process_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -hg
+process_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -sp "C:\Users\Public\Documents"
+process_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -rp
 ```
 
 #### Unit testing
