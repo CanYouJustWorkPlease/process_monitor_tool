@@ -20,10 +20,10 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description="Launch a process, monitor it at a given interval and constantly write the data to a file",
             epilog=
             ('Given that C: is the system drive, here are some examples: \
-            \n\nmonitortool.py -p "C:\Windows\System32\calc.exe" -i 1 \
-            \nmonitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -hg \
-            \nmonitortool.oy -p "C:\Windows\System32\calc.exe" -i 1 -sp "C:\\Users\\Public\\Documents" \
-            \nmonitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -rp')
+            \n\nprocess_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 \
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -hg \
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -sp "C:\\Users\\Public\\Documents" \
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\calc.exe" -i 1 -rp')
             , formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-p", "--path", type=str, metavar=" ", help="provide the ABSOLUTE path of the process that you want to launch", required=True)
     parser.add_argument("-i", "--interval", type=float, metavar=" ", help="set the interval as an integer or float value as seconds", required=True)
