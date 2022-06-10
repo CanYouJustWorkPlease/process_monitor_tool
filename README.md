@@ -32,3 +32,8 @@ monitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -hg
 monitortool.oy -p "C:\Windows\System32\calc.exe" -i 1 -sp "C:\Users\Public\Documents"
 monitortool.py -p "C:\Windows\System32\calc.exe" -i 1 -rp
 ```
+
+#### Unit testing
+To perform unit testing navigate to the `process_monitor_tool` directory and issue the following command:
+
+`python.exe -m unittest -v .\process_monitor_tool_test.py`
