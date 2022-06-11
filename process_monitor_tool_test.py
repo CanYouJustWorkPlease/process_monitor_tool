@@ -3,8 +3,8 @@ from process_monitor_tool import parse_args, validate
 
 global sys_drive
 sys_drive = os.environ['SYSTEMDRIVE']
-global calculator
-calculator = f"{sys_drive}\\Windows\\System32\\calc.exe"
+global notepad
+notepad = f"{sys_drive}\\Windows\\System32\\notepad.exe"
 global public_documents
 public_documents = f'{sys_drive}\\Users\\Public\\Documents\\'
 
@@ -17,20 +17,20 @@ def testfile(test_file: str) -> str:
 
 class TestCLIMonitor(unittest.TestCase):
     def test_parser(self):
-        parser = parse_args(['-p', calculator, '-i', '1', '-sp', public_documents])
-        self.assertEqual(parser.path, calculator)
+        parser = parse_args(['-p', notepad, '-i', '1', '-sp', public_documents])
+        self.assertEqual(parser.path, notepad)
         self.assertEqual(parser.interval, 1)    
         self.assertEqual(parser.save_path, public_documents)   
     
 
 
     def test_positive_interval(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1'])
-        parsed_data2 = parse_args(['-p', calculator,'-i', '99999999999999999999999999999999'])
-        parsed_data3 = parse_args(['-p', calculator,'-i', '-1'])
-        parsed_data4 = parse_args(['-p', calculator,'-i', '0'])
-        parsed_data5 = parse_args(['-p', calculator,'-i', '0.25'])
-        parsed_data6 = parse_args(['-p', calculator,'-i', '-99999999999999999999999999999999'])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1'])
+        parsed_data2 = parse_args(['-p', notepad,'-i', '99999999999999999999999999999999'])
+        parsed_data3 = parse_args(['-p', notepad,'-i', '-1'])
+        parsed_data4 = parse_args(['-p', notepad,'-i', '0'])
+        parsed_data5 = parse_args(['-p', notepad,'-i', '0.25'])
+        parsed_data6 = parse_args(['-p', notepad,'-i', '-99999999999999999999999999999999'])
         try:
             self.assertRaises(ValueError, validate, parsed_data1)
         except:
@@ -50,8 +50,8 @@ class TestCLIMonitor(unittest.TestCase):
 
         
     def test_path(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1'])
-        parsed_data2 = parse_args(['-p', 'calc.exe','-i', '1'])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1'])
+        parsed_data2 = parse_args(['-p', 'notepad.exe','-i', '1'])
         parsed_data3 = parse_args(['-p', 'asd','-i', '1'])
         try:
             self.assertRaises(ValueError, validate, parsed_data1)
@@ -63,8 +63,8 @@ class TestCLIMonitor(unittest.TestCase):
 
 
     def test_save_path(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1', '-sp', public_documents])
-        parsed_data2 = parse_args(['-p', 'calc.exe','-i', '1', '-sp', "bzd\\bzd"])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1', '-sp', public_documents])
+        parsed_data2 = parse_args(['-p', 'notepad.exe','-i', '1', '-sp', "bzd\\bzd"])
         parsed_data3 = parse_args(['-p', 'asd','-i', '1', '-sp', 'D:\\Users\\Public\\Documents'])
         try:
             self.assertRaises(ValueError, validate, parsed_data1)
@@ -79,7 +79,7 @@ class TestCLIMonitor(unittest.TestCase):
 
 
     def test_exe_path(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1'])     
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1'])     
         try:
             self.assertRaises(OSError, validate, parsed_data1)
         except:
@@ -94,7 +94,7 @@ class TestCLIMonitor(unittest.TestCase):
 
 
     def test_path_length(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1'])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1'])
         # String length is 260 characters long for path.
         parsed_data2 = parse_args(
             ['-p', 
@@ -113,8 +113,8 @@ class TestCLIMonitor(unittest.TestCase):
 
 
     def test_save_path_permissions(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1','-sp', public_documents])
-        parsed_data2 = parse_args(['-p', calculator,'-i', '1','-sp', f'{sys_drive}\\Windows\\System32'])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1','-sp', public_documents])
+        parsed_data2 = parse_args(['-p', notepad,'-i', '1','-sp', f'{sys_drive}\\Windows\\System32'])
         try:
             self.assertRaises(PermissionError, validate, parsed_data1)
         except:
@@ -124,7 +124,7 @@ class TestCLIMonitor(unittest.TestCase):
 
 
     def test_is_file_true_exe(self):
-        parsed_data1 = parse_args(['-p', calculator,'-i', '1'])
+        parsed_data1 = parse_args(['-p', notepad,'-i', '1'])
         try:
             self.assertRaises(OSError, validate, parsed_data1)
         except:
