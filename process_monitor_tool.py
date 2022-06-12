@@ -3,17 +3,16 @@ from pathvalidate.argparse import validate_filepath_arg
 from typing import Dict, List
 from decimal import Decimal
 # debug = True displays the traceback and custom error message
-# debug = False displays only the custom error message
+# debug = False displays only the custom error message. User friendly display
 debug: bool = False
 
 # Hides a warning message about deprecation related to asyncio.get_event_loop().run_until_complete(main())
 warnings.filterwarnings("ignore", category=DeprecationWarning)
 
-# I used mypy for type checking from Python Type Checking (Guide):
-# https://realpython.com/python-type-checking/
+# I had used the mypy module for type checking
 
-PID = None
-interval = 0
+PID: int = None
+interval: float = 0
 
 def parse_args(args):
     '''Defines all the arguments that the current cli app is going to use.'''
@@ -29,7 +28,7 @@ def parse_args(args):
     parser.add_argument("-i", "--interval", type=float, metavar=" ", help="set the interval as an integer or float value as seconds", required=True)
     parser.add_argument("-hg", "--hide_gui", action="store_true", help="hide cli gui")
     group = parser.add_mutually_exclusive_group()
-    group.add_argument("-sp", "--save_path", type=validate_filepath_arg, metavar="", help="set the current path for storing the data. Use RELATIVE or ABSOLUTE path")
+    group.add_argument("-sp", "--save_path", type=validate_filepath_arg, metavar="", help="set the current path for storing the data. Provide the ABSOLUTE path")
     group.add_argument("-rp","--restore_path", action="store_true", help="restore default path for data storing")
     return parser.parse_args(args)
 
@@ -39,6 +38,7 @@ def validate(args):
     '''
     Contains conditions for the arguments to test against. This function is also used for unittest.
     '''
+
 
     # Checks if the path or save path exceed 256 characters
     if len(args.path) > 256:
@@ -50,11 +50,15 @@ def validate(args):
     if not os.path.exists(args.path):
         raise FileNotFoundError(f'"{args.path}" file path does not exist. Please use an appropriate path.')
     
-    # Checks if the system drive in the save path is not existing
+    # save path validation
     if args.save_path != None:
         regexp = re.compile(r'^[A-Z]:.+$')
         if regexp.search(args.save_path) and not os.path.exists(args.save_path[:2]):
-            raise FileNotFoundError(f'"{args.save_path}" save path does not exist. Please use an appropriate save path.')
+            raise FileNotFoundError(f'"{args.save_path[:2]}" save path drive does not exist. Please provide an appropriate drive.')
+        elif not regexp.search(args.save_path):
+            raise FileNotFoundError(f'"{args.save_path}" is the relative path. Please provide the absolute path.')
+        elif args.save_path != os.path.normpath(args.save_path):
+            raise FileNotFoundError(f'Invalid path. Please use "{os.path.normpath(args.save_path)}" as the appropriate path.')
 
     # Checks if a folder is denied access from being created based on the path provided for save path
     if args.save_path != None:
@@ -131,8 +135,10 @@ async def main():
         elif not debug:
             if len(e.args):
                 error_msg = e
+                print(type(error_msg))
             else:
                 error_msg = e.args[0]
+                print(type(error_msg))
             print("\n\t", str(type(e).__name__) + ":", error_msg ,"\n")
         sys.exit(1)
 
@@ -159,18 +165,8 @@ async def write_stats():
     # if the hide_gui argument is used, the cli GUI will be hidden.
     show_gui: bool = not args.hide_gui
 
-    # Checks if the save path is relative.
-    # If it is relative, then it merges the path of the current directory where this very
-    # script resides with the path specified in save path.
-    if args.save_path != None:
-        regexp = re.compile(r'^[A-Z]:.+$')
-        if not regexp.search(args.save_path):
-            base_path, _ = os.path.split(os.path.realpath(__file__))
-            args.save_path = base_path + args.save_path
-
     # Sets current locale to en_US for adding the capability of displaying thousands separator for numbers.
     locale.setlocale(locale.LC_ALL, 'en_US')
-
 
     # Sets the default path to current user's "Documents" folder, regardless of the username.
     default_path: str = f"{os.path.expanduser('~')}\\Documents\\Process monitor data"

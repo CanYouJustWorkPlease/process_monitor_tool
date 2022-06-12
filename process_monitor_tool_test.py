@@ -54,7 +54,7 @@ class TestCLIMonitor(unittest.TestCase):
         parsed_data2 = parse_args(['-p', 'notepad.exe','-i', '1'])
         parsed_data3 = parse_args(['-p', 'asd','-i', '1'])
         try:
-            self.assertRaises(ValueError, validate, parsed_data1)
+            self.assertRaises(FileNotFoundError, validate, parsed_data1)
         except:
             pass 
         self.assertRaises(FileNotFoundError, validate, parsed_data2)
@@ -64,16 +64,13 @@ class TestCLIMonitor(unittest.TestCase):
 
     def test_save_path(self):
         parsed_data1 = parse_args(['-p', notepad,'-i', '1', '-sp', public_documents])
-        parsed_data2 = parse_args(['-p', 'notepad.exe','-i', '1', '-sp', "bzd\\bzd"])
-        parsed_data3 = parse_args(['-p', 'asd','-i', '1', '-sp', 'D:\\Users\\Public\\Documents'])
+        parsed_data2 = parse_args(['-p', notepad,'-i', '1', '-sp', "bzd\\bzd"])
+        parsed_data3 = parse_args(['-p', notepad,'-i', '1', '-sp', 'D:\\Users\\Public\\Documents'])
         try:
-            self.assertRaises(ValueError, validate, parsed_data1)
+            self.assertRaises(FileNotFoundError, validate, parsed_data1)
         except:
             pass 
-        try:
-            self.assertRaises(ValueError, validate, parsed_data2)
-        except:
-            pass 
+        self.assertRaises(FileNotFoundError, validate, parsed_data2)
         self.assertRaises(FileNotFoundError, validate, parsed_data3)
 
 

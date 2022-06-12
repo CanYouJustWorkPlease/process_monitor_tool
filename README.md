@@ -22,7 +22,7 @@ options:
   -p  , --path          provide the ABSOLUTE path of the process that you want to launch
   -i  , --interval      set the interval as an integer or float value as seconds
   -hg , --hide_gui      hide cli gui
-  -sp , --save_path     set the current path for storing the data. Use RELATIVE or ABSOLUTE path
+  -sp , --save_path     set the current path for storing the data. Provide the ABSOLUTE path
   -rp , --restore_path  restore default path for data storing
 
 Given that C: is the system drive, here are some examples:
