@@ -35,7 +35,7 @@ process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -rp
 process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -d
 ```
 
-#### Unit testing
+#### Unit testing:
 To perform unit testing navigate to the `process_monitor_tool` directory and issue the following command:
 
 `python.exe -m unittest -v .\process_monitor_tool_test.py`
