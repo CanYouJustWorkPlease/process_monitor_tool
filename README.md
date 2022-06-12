@@ -13,7 +13,7 @@ Naviagate to the `process_monitor_tool` directory and issue the following comman
 
 #### Usage:
 ```
-process_monitor_tool.py [-h] -p   -i   [-hg] [-sp  | -rp]
+process_monitor_tool.py [-h] -p   -i   [-hg] [-sp  | -rp ] [-d ]
 
 Launch a process, monitor it at a given interval and constantly write the data to a file
 
@@ -24,6 +24,7 @@ options:
   -hg , --hide_gui      hide cli gui
   -sp , --save_path     set the current path for storing the data. Provide the ABSOLUTE path
   -rp , --restore_path  restore default path for data storing
+  -d  , --debug         display traceback and custom error message
 
 Given that C: is the system drive, here are some examples:
 
@@ -31,6 +32,7 @@ process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1
 process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -hg
 process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -sp "C:\Users\Public\Documents"
 process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -rp
+process_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -d
 ```
 
 #### Unit testing

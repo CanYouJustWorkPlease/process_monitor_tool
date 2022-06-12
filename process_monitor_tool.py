@@ -2,9 +2,6 @@ import argparse, asyncio, sys, psutil, configparser, datetime, os, json, locale,
 from pathvalidate.argparse import validate_filepath_arg
 from typing import Dict, List
 from decimal import Decimal
-# debug = True displays the traceback and custom error message
-# debug = False displays only the custom error message. User friendly display
-debug: bool = False
 
 # Hides a warning message about deprecation related to asyncio.get_event_loop().run_until_complete(main())
 warnings.filterwarnings("ignore", category=DeprecationWarning)
@@ -19,17 +16,19 @@ def parse_args(args):
     parser = argparse.ArgumentParser(description="Launch a process, monitor it at a given interval and constantly write the data to a file",
             epilog=
             ('Given that C: is the system drive, here are some examples: \
-            \n\nprocess_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 \
-            \nprocess_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -hg \
-            \nprocess_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -sp "C:\\Users\\Public\\Documents" \
-            \nprocess_monitor_tool.py -p "C:\Windows\System32\notepad.exe" -i 1 -rp')
+            \n\nprocess_monitor_tool.py -p "C:\Windows\System32\\notepad.exe" -i 1\
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\\notepad.exe" -i 1 -hg\
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\\notepad.exe" -i 1 -sp "C:\\Users\\Public\\Documents"\
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\\notepad.exe" -i 1 -rp\
+            \nprocess_monitor_tool.py -p "C:\Windows\System32\\notepad.exe" -i 1 -d')
             , formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("-p", "--path", type=str, metavar=" ", help="provide the ABSOLUTE path of the process that you want to launch", required=True)
     parser.add_argument("-i", "--interval", type=float, metavar=" ", help="set the interval as an integer or float value as seconds", required=True)
-    parser.add_argument("-hg", "--hide_gui", action="store_true", help="hide cli gui")
+    parser.add_argument("-hg ", "--hide_gui", action="store_true", help="hide cli gui")
     group = parser.add_mutually_exclusive_group()
     group.add_argument("-sp", "--save_path", type=validate_filepath_arg, metavar="", help="set the current path for storing the data. Provide the ABSOLUTE path")
-    group.add_argument("-rp","--restore_path", action="store_true", help="restore default path for data storing")
+    group.add_argument("-rp ","--restore_path", action="store_true", help="restore default path for data storing")
+    parser.add_argument("-d  ", "--debug", action="store_true", help="display traceback and custom error message")
     return parser.parse_args(args)
 
 
@@ -130,9 +129,9 @@ async def main():
     try:
         validate(args)
     except Exception as e:
-        if debug:
+        if args.debug:
             print(traceback.format_exc())
-        elif not debug:
+        elif not args.debug:
             if len(e.args):
                 error_msg = e
                 print(type(error_msg))
