@@ -129,7 +129,11 @@ async def main():
         if debug:
             print(traceback.format_exc())
         elif not debug:
-            print("\n\t", str(type(e).__name__) + ":", e.args[0], "\n")
+            if len(e.args):
+                error_msg = e
+            else:
+                error_msg = e.args[0]
+            print("\n\t", str(type(e).__name__) + ":", error_msg ,"\n")
         sys.exit(1)
 
     global interval
